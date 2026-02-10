@@ -2,19 +2,23 @@ created apps for all entities,
     users
     authentication
     allocation
-    assets
+    assets+
     donor_buyer
     reports
     location
-added users model and 
-added base permissions for users in views 
-added users serialisers
-inniatial git
+started building the users app:
+
+    added users model and roles
+    added base permissions 
+    added users serialisers
+    added users endpoints 
+    added tests for CRUD for users
+    inniatial git
+
+
 
 next:
+authentication module for user login/logout
+implement django simple history for users
+build remaining modules including CRUD , listings, filters, searching etc
 
-role based access 
-maping urls of all models to admin plus end point 
-applying permissions 
-writing tests 
-fixing bugs
