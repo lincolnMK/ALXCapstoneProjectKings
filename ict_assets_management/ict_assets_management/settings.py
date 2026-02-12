@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     # Local apps (domain-based)
     'authentication',
     'users',
-    'donor_buyer',
+    'donorbuyer',
     'location',
     'assets',
     'allocation',
