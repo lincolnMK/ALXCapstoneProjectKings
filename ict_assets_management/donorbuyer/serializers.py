@@ -18,10 +18,8 @@ class DonorBuyerSerializer(serializers.ModelSerializer):
         donor_type = data.get('type')
         email = data.get('email')
 
-        # Example business rule (optional)
         if donor_type == 'buyer' and not email:
             raise serializers.ValidationError({
-                "email": "Email is required when type is buyer."
+                "email": "Email is required when creating a buyer."
             })
-
         return data

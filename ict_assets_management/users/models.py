@@ -19,6 +19,7 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
+    last_logout = models.DateTimeField(null=True, blank=True)
     
     history = HistoricalRecords() 
     

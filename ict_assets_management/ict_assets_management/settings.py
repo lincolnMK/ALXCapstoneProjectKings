@@ -139,3 +139,13 @@ STATIC_URL = 'static/'
 SIMPLE_HISTORY_HISTORY_USER_ID_FIELD = 'history_user_id'
 SIMPLE_HISTORY_HISTORY_USER_FIELD = 'history_user'
 SIMPLE_HISTORY_HISTORY_USER_MODEL = 'users.User'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
