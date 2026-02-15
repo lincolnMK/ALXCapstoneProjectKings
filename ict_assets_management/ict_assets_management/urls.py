@@ -30,11 +30,8 @@ urlpatterns = [
     path('api/allocation/', include('allocation.urls')),
     path('api/reports/', include('reports.urls')),
     
-   
-
 
 ]
-
 
 
 schema_view = get_schema_view(
