@@ -22,6 +22,7 @@ urlpatterns = [
     path('api/users/', include('users.urls')),  
     path('api/auth/', include('authentication.urls')),
     path('api/donorbuyer/', include('donorbuyer.urls')),
+    path('api/location/', include('location.urls')),
 
 
 ]
