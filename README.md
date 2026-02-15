@@ -1,4 +1,34 @@
 Capstone Project Roadmap: ICT Assets Management API
+
+
+
+
+# ICT Assets Management API
+
+Deployed Django REST API to manage store inventory.
+
+## Features
+- CRUD operations for inventory items and users
+- View current inventory levels
+- Interactive API documentation via Swagger
+
+## Deployed API
+[https://lincolnmk.pythonanywhere.com](https://lincolnmk.pythonanywhere.com)
+Swagger docs: [https://lincolnmk.pythonanywhere.com/swagger/](https://lincolnmk.pythonanywhere.com/swagger/)
+
+## Technologies
+- Django 6
+- Django REST Framework
+- SQLite (PythonAnywhere Free Plan)
+
+
+
+
+
+
+
+
+
 1. The Project Idea
 
 The ICT Assets Management API aims to manage ICT equipment from acquisition (through donors or buyers) to allocation and tracking. Its goal is to ensure transparency in how assets are received, distributed, and monitored within the organization to support informed decision-making. The system will provide visibility into equipment that has not yet been distributed, as well as items that have already been allocated. Allocations will also serve as an analytical tool, offering an overview of equipment distribution to highlight areas that may have been left out. This ensures that when new equipment arrives, those underserved areas can be prioritized. Furthermore, when auditors conduct follow-ups, the API will enable the generation of detailed reports showing each piece of equipment and its organizational location, allowing them to verify its existence and usage on the ground.
@@ -22,3 +52,4 @@ Historical logs of updates using Django-simple-history.
 Framework: Django REST Framework (DRF).
 Database Interaction: Django ORM.
 Deployment Option: PythonAnywhere (MySQL/SQLite).
+
