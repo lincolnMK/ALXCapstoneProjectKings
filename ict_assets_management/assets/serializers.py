@@ -1,8 +1,10 @@
 from rest_framework import serializers
+
+from donorbuyer.serializers import DonorBuyerSerializer
 from .models import Asset
 
 class AssetSerializer(serializers.ModelSerializer):
-
+    donor_buyer = DonorBuyerSerializer(read_only=True)
     class Meta:
         model = Asset
         fields = '__all__'

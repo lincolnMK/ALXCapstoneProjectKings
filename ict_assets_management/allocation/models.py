@@ -4,11 +4,11 @@ from simple_history.models import HistoricalRecords
 from django.conf import settings
 
 
-
 # Create your models here.
 class Allocation(models.Model):
     inventory_item = models.ForeignKey('assets.Asset', on_delete=models.CASCADE, related_name='allocations')
     allocated_to = models.CharField(max_length=255)
+    location = models.ForeignKey('location.Location', on_delete=models.CASCADE, related_name='allocations')
     allocation_date = models.DateField(auto_now_add=True)
     return_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=50, choices=[('allocated', 'Allocated'), ('returned', 'Returned')])

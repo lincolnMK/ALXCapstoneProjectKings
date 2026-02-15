@@ -24,6 +24,8 @@ urlpatterns = [
     path('api/donorbuyer/', include('donorbuyer.urls')),
     path('api/location/', include('location.urls')),
     path('api/asset/', include('assets.urls')),
+    path('api/allocation/', include('allocation.urls')),
+   
 
 
 ]
