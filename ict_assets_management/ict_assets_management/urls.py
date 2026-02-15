@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/auth/', include('authentication.urls')),
     path('api/donorbuyer/', include('donorbuyer.urls')),
     path('api/location/', include('location.urls')),
+    path('api/asset/', include('assets.urls')),
 
 
 ]
