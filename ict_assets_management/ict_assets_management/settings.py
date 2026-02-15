@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken', 
     'simple_history',         
-    #'django_filters',
+    'django_filters',
+    'drf_yasg',
     
     # Local apps (domain-based)
     'authentication',

@@ -25,8 +25,6 @@ class IsAdminOrAuditor(BasePermission):
             and request.user.role.name in ["ADMIN", "AUDITOR"]
         )        
         
-        
-        
 
 # Create your views here.
 
