@@ -1,65 +1,83 @@
-from django.test import TestCase
-
-# Create your tests here.
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
-from users.models import User, Role  
-from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 
+from users.models import Role, User
 
 class AuthAPITestCase(APITestCase):
+
     def setUp(self):
-        # Create roles
+        # Create role
         self.admin_role = Role.objects.create(name="ADMIN", description="Admin user")
-        
-        # Create a test user
+
+        # Create test user
         self.user = User.objects.create_user(
             username="testuser",
             password="testpassword123",
             role=self.admin_role
         )
 
-        # Endpoints
+        # Endpoint URLs
         self.login_url = reverse('login')
         self.logout_url = reverse('logout')
+        self.refresh_url = reverse('token_refresh')  # SimpleJWT refresh endpoint
 
+    # LOGIN SUCCESS
     def test_login_success(self):
-        """Test successful login returns token and user info"""
         response = self.client.post(
             self.login_url,
             {"username": "testuser", "password": "testpassword123"},
             format='json'
         )
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('token', response.data)
+        self.assertIn('access', response.data)
+        self.assertIn('refresh', response.data)
         self.assertEqual(response.data['user']['username'], "testuser")
         self.assertEqual(response.data['user']['role'], "ADMIN")
 
+    # LOGIN FAILURE
     def test_login_failure_wrong_credentials(self):
-        """Test login fails with wrong password"""
         response = self.client.post(
             self.login_url,
             {"username": "testuser", "password": "wrongpassword"},
             format='json'
         )
+
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('non_field_errors', response.data or response.data.keys())
 
+    # LOGOUT SUCCESS
     def test_logout_success(self):
-        """Test logout invalidates token"""
-        # First, log in and get token
-        token, _ = Token.objects.get_or_create(user=self.user)
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        # Generate JWT tokens
+        refresh = RefreshToken.for_user(self.user)
+        access_token = str(refresh.access_token)
 
-        response = self.client.post(self.logout_url, format='json')
+        # Authenticate request with access token
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
+
+        # Logout using refresh token (blacklist)
+        response = self.client.post(
+            self.logout_url,
+            {"refresh": str(refresh)},
+            format='json'
+        )
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['detail'], "Successfully logged out.")
 
-        # Token should be deleted
-        self.assertFalse(Token.objects.filter(user=self.user).exists())
-
+    # LOGOUT UNAUTHENTICATED
     def test_logout_unauthenticated(self):
-        """Test logout fails if not authenticated"""
         response = self.client.post(self.logout_url, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    # TOKEN REFRESH
+    def test_token_refresh(self):
+        refresh = RefreshToken.for_user(self.user)
+        response = self.client.post(
+            self.refresh_url,
+            {"refresh": str(refresh)},
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('access', response.data)

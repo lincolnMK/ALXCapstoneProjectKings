@@ -10,6 +10,10 @@ from django.contrib.auth import logout
 from .serializers import LoginSerializer
 from django.utils import timezone
 
+
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.utils import timezone
+
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -17,16 +21,17 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        
-        # Update last_login to track login
+
+        # Track login
         user.last_login = timezone.now()
-        user.save()  # This triggers simple_history to record the change
-       
-        # Generate or get token
-        token, created = Token.objects.get_or_create(user=user)
+        user.save()
+
+        # Generate JWT tokens
+        refresh = RefreshToken.for_user(user)
 
         return Response({
-            "token": token.key,
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
             "user": {
                 "id": user.id,
                 "username": user.username,
@@ -35,13 +40,22 @@ class LoginView(APIView):
         })
 
 
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
+
 class LogoutView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        user = request.user
-        user.last_logout = timezone.now()
-        user.save()  # simple_history will track this change
-        request.user.auth_token.delete()  # Delete token
-        logout(request)
-        return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            request.user.last_logout = timezone.now()
+            request.user.save()
+
+            return Response({"detail": "Successfully logged out."})
+        
+        except TokenError:
+            return Response({"error": "Invalid token"}, status=400)
