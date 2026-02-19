@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
     role = serializers.PrimaryKeyRelatedField(
         queryset=Role.objects.all()
     )
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField()
 
     class Meta:
         model = User

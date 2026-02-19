@@ -9,31 +9,18 @@ from django.contrib.auth import get_user_model
 from datetime import datetime
 from rest_framework.permissions import BasePermission
 User = get_user_model()
-
-
-
-
-
-#permissions for the model:
-
-class ReportPermission(BasePermission):
-    """
-    Allows access to ADMIN and AUDITOR roles.
-    """
-    def has_permission(self, request, view):
-        return (
-            request.user.is_authenticated
-            and request.user.role
-            and request.user.role.name in ["ADMIN", "AUDITOR"]
-        )       
-        
-
-
-
+from ict_assets_management.permissions import RoleBasedPermission
 
 
 class ReportsView(APIView):
-    permission_classes = [ReportPermission]
+    permission_classes = [RoleBasedPermission]
+    role_permissions = {
+        "get": ["ADMIN", "AUDITOR"],
+    }   
+
+
+
+
 
     def get(self, request):
         report_type = request.query_params.get("type")

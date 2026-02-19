@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.permissions import BasePermission
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
+
+from ict_assets_management.permissions import RoleBasedPermission
 from .models import Allocation
 from .serializers import AllocationSerializer
 
@@ -11,38 +13,18 @@ from .serializers import AllocationSerializer
 #permissions for the model:
 
 
-
-class AllocationPermission(BasePermission):
-
-    def has_permission(self, request, view):
-        user = request.user
-        if not user.is_authenticated:
-            return False
-
-        # List & Retrieve → all authenticated users
-        if view.action in ['list', 'retrieve']:
-            return True
-
-        # Create → Admin or Asset Manager
-        if view.action == 'create':
-            return user.is_admin() or user.is_asset_manager()
-
-        # Update → Admin or Asset Manager
-        if view.action in ['update', 'partial_update']:
-            return user.is_admin() or user.is_asset_manager()
-
-        # Delete → Admin only
-        if view.action == 'destroy':
-            return user.is_admin()
-
-        return False
-
-#viewsets
-
 class AllocationViewSet(viewsets.ModelViewSet):
     queryset = Allocation.objects.all()
     serializer_class = AllocationSerializer
-    permission_classes = [AllocationPermission]
+    permission_classes = [RoleBasedPermission]
+    role_permissions = {
+    "list": ["ADMIN", "ASSET_MANAGER", "AUDITOR"],
+    "retrieve": ["ADMIN", "ASSET_MANAGER", "AUDITOR"],
+    "create": ["ADMIN", "ASSET_MANAGER"],
+    "update": ["ADMIN", "ASSET_MANAGER"],
+    "partial_update": ["ADMIN", "ASSET_MANAGER"],
+    "destroy": ["ADMIN"],
+}
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['status', 'allocated_to', 'inventory_item',   'location',   'allocation_date', 'return_date']
