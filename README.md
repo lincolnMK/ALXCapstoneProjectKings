@@ -1,9 +1,10 @@
-Capstone Project Roadmap: ICT Assets Management API
+project: ALX Capstone Project 
+API: ICT Assets Management API
 
 
 # ICT Assets Management API
 
-Deployed Django REST API to manage store inventory.
+Deployed Django REST API to manage ICT Assets
 
 ## Features
 - CRUD operations for inventory items and users
@@ -44,11 +45,52 @@ Database Interaction: Django ORM.
 Deployment Option: PythonAnywhere (MySQL/SQLite).
 
 4. To Deploy  
-    ✔ Install requirements
+    ✔ Install requirements.txt
     ✔ Configure Database in settings.py
     ✔ Migrate database
     ✔ Collect static files
-    ✔ Install Gunicorn
-    ✔ Configure systemd service
-    ✔ Configure Nginx
+    ✔ Configure webserver
     ✔ Enable firewall
+
+Endpoints: 
+base_url: https://lincolnmk.pythonanywhere.com/api/
+Documentation: https://lincolnmk.pythonanywhere.com/redoc/
+Documentation2: https://lincolnmk.pythonanywhere.com/swagger/
+
+
+Authentication:
+1. Login
+        POST: api/auth/login/
+
+        sample payload 
+
+        {
+                "username":"myusername",
+                "Password":"mypassword"
+        }
+
+2. Logout:
+        POST: api/auth/logout/ 
+3. Token Refresh
+        POST: api/auth/token/refresh/ 
+       
+Usermanagement: 
+1. list users 
+        GET: api/users/
+2. create users
+        POST: api/users/
+    payload sample: 
+                {
+                    "username": "string",
+                    "email": "user@example.com",
+                    "first_name": "string",
+                    "last_name": "string",
+                    "role": 1,
+                    "password": "string",
+                    "is_active": true
+                }
+3. Location Management
+4. Assets management
+5. Donor Buyer Management
+6. Allocation Management
+7. reports
