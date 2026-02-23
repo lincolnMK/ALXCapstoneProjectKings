@@ -1,8 +1,10 @@
 from django.urls import path
 from .views import ReportsView
 
+reports_list = ReportsView.as_view({'get': 'list'})
 urlpatterns = [
-    path("", ReportsView.as_view(), name="reports"),
+    path('', reports_list, name='reports-list'),
+    
 ]
 
 

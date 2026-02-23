@@ -1,5 +1,5 @@
 from django.db.models import Count
-from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from assets.models import Asset
@@ -12,17 +12,17 @@ User = get_user_model()
 from ict_assets_management.permissions import RoleBasedPermission
 
 
-class ReportsView(APIView):
+class ReportsView(viewsets.ViewSet):
     permission_classes = [RoleBasedPermission]
     role_permissions = {
-        "get": ["ADMIN", "AUDITOR"],
-    }   
+        "list": ["ADMIN", "AUDITOR"],       # GET /api/reports/
+        "retrieve": ["ADMIN", "AUDITOR"],   # GET /api/reports/{pk}/ if needed
+    }
 
-
-
-
-
-    def get(self, request):
+    def list(self, request):
+        """
+        Handles GET /api/reports/?type=<report_type>
+        """
         report_type = request.query_params.get("type")
 
         if report_type == "asset-summary":

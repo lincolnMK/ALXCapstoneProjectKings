@@ -1,10 +1,20 @@
 from rest_framework import serializers
 
 from donorbuyer.serializers import DonorBuyerSerializer
+from donorbuyer.models import DonorBuyer
 from .models import Asset
 
 class AssetSerializer(serializers.ModelSerializer):
+    # Nested display
     donor_buyer = DonorBuyerSerializer(read_only=True)
+    
+    # Accept ID on input
+    donor_buyer_id = serializers.PrimaryKeyRelatedField(
+        source='donor_buyer',  # assign to donor_buyer ForeignKey
+        queryset=DonorBuyer.objects.all(),
+        write_only=True
+    )
+
     class Meta:
         model = Asset
         fields = '__all__'

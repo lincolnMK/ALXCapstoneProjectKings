@@ -1,8 +1,6 @@
 Capstone Project Roadmap: ICT Assets Management API
 
 
-
-
 # ICT Assets Management API
 
 Deployed Django REST API to manage store inventory.
@@ -20,14 +18,6 @@ Swagger docs: [https://lincolnmk.pythonanywhere.com/swagger/](https://lincolnmk.
 - Django 6
 - Django REST Framework
 - SQLite (PythonAnywhere Free Plan)
-
-
-
-
-
-
-
-
 
 1. The Project Idea
 
@@ -53,3 +43,12 @@ Framework: Django REST Framework (DRF).
 Database Interaction: Django ORM.
 Deployment Option: PythonAnywhere (MySQL/SQLite).
 
+4. To Deploy  
+    ✔ Install requirements
+    ✔ Configure Database in settings.py
+    ✔ Migrate database
+    ✔ Collect static files
+    ✔ Install Gunicorn
+    ✔ Configure systemd service
+    ✔ Configure Nginx
+    ✔ Enable firewall
