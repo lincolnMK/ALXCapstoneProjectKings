@@ -13,7 +13,7 @@ Deployed Django REST API to manage ICT Assets
 
 ## Deployed API
 [https://lincolnmk.pythonanywhere.com](https://lincolnmk.pythonanywhere.com)
-Swagger docs: [https://lincolnmk.pythonanywhere.com/swagger/](https://lincolnmk.pythonanywhere.com/swagger/)
+Swagger docs: [https://lincolnmk.pythonanywhere.com/api/swagger/](https://lincolnmk.pythonanywhere.com/api/swagger/)
 
 ## Technologies
 - Django 6
