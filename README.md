@@ -1,22 +1,11 @@
-project: ALX Capstone Project 
-API: ICT Assets Management API
+# ICT Assets Management API (ALX Capstone)
 
-
-# ICT Assets Management API
-
-Deployed Django REST API to manage ICT Assets
-
-## Features
-- CRUD operations for inventory items and users
-- View current inventory levels
-- Interactive API documentation via Swagger
-
-## Deployed API
+# Deployed API
 [https://lincolnmk.pythonanywhere.com](https://lincolnmk.pythonanywhere.com)
 Swagger docs: [https://lincolnmk.pythonanywhere.com/api/swagger/](https://lincolnmk.pythonanywhere.com/api/swagger/)
 
-## Technologies
-- Django 6
+# Technologies used
+- Django 
 - Django REST Framework
 - SQLite (PythonAnywhere Free Plan)
 
@@ -38,59 +27,88 @@ Audit & Compliance
 Timestamps and user tracking for all changes.
 Historical logs of updates using Django-simple-history.
 
-3. Frameworks to Be Used 
 
-Framework: Django REST Framework (DRF).
-Database Interaction: Django ORM.
-Deployment Option: PythonAnywhere (MySQL/SQLite).
+**Project**: ICT Assets Management — a Django REST API to manage acquisition, inventory, allocation, and reporting for ICT assets.
 
-4. To Deploy  
-    ✔ Install requirements.txt
-    ✔ Configure Database in settings.py
-    ✔ Migrate database
-    ✔ Collect static files
-    ✔ Configure webserver
-    ✔ Enable firewall
+**Overview**
+- **Purpose:** Track assets from donors or buyers through allocation and reporting to improve transparency and auditing.
+- **Key domains:** Assets, Locations, Users, Donors/Buyers, Allocations, Reports.
 
-Endpoints: 
-base_url: https://lincolnmk.pythonanywhere.com/api/
-Documentation: https://lincolnmk.pythonanywhere.com/redoc/
-Documentation2: https://lincolnmk.pythonanywhere.com/swagger/
+**Features**
+- **CRUD:** Create, read, update, delete for assets, users, locations, donors/buyers.
+- **Allocation tracking:** Record who received which asset, when, and where.
+- **Audit history:** Change tracking with timestamps and historical logs.
+- **API docs:** Auto-generated Swagger / ReDoc documentation.
+
+**Tech Stack**
+- **Framework:** Django, Django REST Framework
+- **DB:** SQLite (default) — easy local setup; production can use PostgreSQL/MySQL
+- **Extras:** django-simple-history for auditing
+
+**Prerequisites**
+- Python 3.10+ installed
+- Git (optional)
+- System packages for building Python wheels (on Debian/Ubuntu: `build-essential`, `libpq-dev` for Postgres)
+
+**Quick Setup (local)**
+1. Clone the repo (if not already):
+
+```bash
+git clone https://github.com/lincolnMK/ALXCapstoneProjectKings.git
+cd ALXCapstoneProjectKings
+```
+
+2. Create and activate a virtual environment:
+
+```bash
+python3 -m venv myenv
+source myenv/bin/activate
+```
+
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Configure environment:
+- Copy `.env.example` to `.env` and set `SECRET_KEY`, `DEBUG`, and database settings if present.
+
+5. Apply database migrations:
+
+```bash
+python manage.py migrate
+```
+
+6. (Optional) Create a superuser:
+
+```bash
+python manage.py createsuperuser
+```
+
+7. Run the development server:
+
+```bash
+python manage.py runserver
+```
+
+The API will be available at `http://127.0.0.1:8000/api/` by default.
+
+**Running Tests**
+
+```bash
+python manage.py test
+```
+
+**API Documentation**
+- Swagger: `/api/swagger/` 
 
 
-Authentication:
-1. Login
-        POST: api/auth/login/
+**Common Endpoints (examples)**
+- Authentication: `POST /api/auth/login/`, `POST /api/auth/logout/`, `POST /api/auth/token/refresh/`
+- Users: `GET /api/users/`, `POST /api/users/`
+- Assets, Locations, Donor/Buyer, Allocation endpoints follow the pattern `/api/<resource>/`
 
-        sample payload 
-
-        {
-                "username":"myusername",
-                "Password":"mypassword"
-        }
-
-2. Logout:
-        POST: api/auth/logout/ 
-3. Token Refresh
-        POST: api/auth/token/refresh/ 
-       
-Usermanagement: 
-1. list users 
-        GET: api/users/
-2. create users
-        POST: api/users/
-    payload sample: 
-                {
-                    "username": "string",
-                    "email": "user@example.com",
-                    "first_name": "string",
-                    "last_name": "string",
-                    "role": 1,
-                    "password": "string",
-                    "is_active": true
-                }
-3. Location Management
-4. Assets management
-5. Donor Buyer Management
-6. Allocation Management
-7. reports
+**Deployment Notes**
+- For production, set `DEBUG=False`, provide a secure `SECRET_KEY`, and use PostgreSQL or MySQL.
+- Run `python manage.py collectstatic` and configure your webserver (Gunicorn + Nginx recommended).
